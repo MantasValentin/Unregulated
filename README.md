@@ -1,5 +1,5 @@
 # Unregulated social media site
-fully functional reddit style social media site
+Fully functional reddit style social media site
 
 ## Getting Started
 To get all the packages.

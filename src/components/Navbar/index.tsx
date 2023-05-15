@@ -3,7 +3,7 @@ import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { HiCubeTransparent } from "react-icons/hi";
 import AuthButtons from "./RightContent/AuthButtons";
-import RightContent from "./RightContent/RightContent";
+import RightContent from "./RightContent";
 import SearchInput from "./SearchInput";
 import Directory from "./Directory";
 

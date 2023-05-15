@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
-type SearchInputProps = {};
+const SearchInput: React.FC = () => {
+  const [input, setInput] = useState("");
 
-const SearchInput: React.FC<SearchInputProps> = () => {
+  console.log(input);
   return (
     <form className="border-none p-0 w-80 flex-auto flex justify-center">
       <input
-        className="nosubmit w-full max-w-xl py-1 pl-10 border border-solid border-gray-200 focus:outline-none rounded-full"
+        className="nosubmit w-full max-w-xl py-1 pl-10 border border-solid border-gray-300 focus:outline-none rounded-full"
         type="text"
         placeholder="Search..."
+        value={input}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setInput(e.target.value)
+        }
       />
     </form>
   );

@@ -59,6 +59,7 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
           // adds group to group creators favorite groups
           set(ref(db, "users/" + user?.uid + "/groups/" + groupName), {
             id: id,
+            groupName: groupName,
           });
           setModalState(!modalState);
         }
@@ -157,7 +158,7 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
             </div>
             <div className="flex justify-center w-full">
               <button
-                className="flex-1 max-w-[10rem] border border-gray-300 rounded-full shadow-sm px-3 py-2 hover:bg-gray-100 text-lg"
+                className="flex-1 max-w-[10rem] border border-gray-300 rounded-full shadow-sm px-3 py-2 hover:bg-gray-200 text-lg"
                 type="submit"
                 onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
                   createGroup(e)

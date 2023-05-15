@@ -8,7 +8,7 @@ const Directory: React.FC = () => {
     <>
       <div className="relative hover:cursor-pointer">
         <div
-          className="flex items-center gap-1 border border-gray-200 hover:bg-gray-100 rounded-lg py-1 px-2"
+          className="flex items-center gap-1 border border-gray-300 hover:bg-gray-200 rounded-lg py-1 px-2"
           onClick={() => setGroups(!groups)}
         >
           <svg

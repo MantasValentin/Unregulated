@@ -23,7 +23,6 @@ const Groups: React.FC = () => {
             return snapshot.val()[key];
           });
           setUserGroups(data);
-          console.log(snapshot.val(), userGroups, data);
         } else {
         }
       })
@@ -36,9 +35,11 @@ const Groups: React.FC = () => {
     <>
       <div className="absolute top-[41px] w-60 bg-white border border-gray-300 rounded-md">
         <div className="flex flex-col">
-          <p className="text-base text-left pl-2 py-2 border-b-[1px] border-b-gray-300">Your Groups</p>
+          <p className="text-base text-left pl-2 py-2 border-b-[1px] border-b-gray-300 hover:cursor-default">
+            Your Groups
+          </p>
           <button
-            className="flex items-center gap-2 p-2 text-left hover:bg-gray-100 hover:rounded-b-lg"
+            className="flex items-center m-1 p-1 text-left hover:bg-gray-200 hover:rounded-md"
             onClick={() => setCreateGroup(!createGroup)}
           >
             <svg
@@ -59,10 +60,13 @@ const Groups: React.FC = () => {
           </button>
           {userGroups?.map((group: Group) => {
             return (
-              <div key={`${group.id}`} className="flex items-center gap-2 p-2 text-left hover:bg-gray-100 hover:rounded-lg">
+              <div
+                key={`${group.id}`}
+                className="flex items-center m-1 p-1 text-left hover:bg-gray-200 hover:rounded-md"
+              >
                 {group.groupName}
               </div>
-            )
+            );
           })}
         </div>
       </div>

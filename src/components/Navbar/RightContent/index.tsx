@@ -11,7 +11,7 @@ const RightContent: React.FC<props> = ({ user }) => {
 
   return (
     <>
-      <button className="">
+      <button className="max-sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -27,7 +27,7 @@ const RightContent: React.FC<props> = ({ user }) => {
           />
         </svg>
       </button>
-      <button>
+      <button className="max-sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -43,7 +43,7 @@ const RightContent: React.FC<props> = ({ user }) => {
           />
         </svg>
       </button>
-      <button>
+      <button className="max-sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -59,7 +59,7 @@ const RightContent: React.FC<props> = ({ user }) => {
           />
         </svg>
       </button>
-      <button>
+      <button className="max-sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -76,7 +76,7 @@ const RightContent: React.FC<props> = ({ user }) => {
         </svg>{" "}
       </button>
       <button
-        className="flex items-center gap-1 border border-gray-200 hover:bg-gray-100 rounded-lg py-1 px-2"
+        className="flex items-center gap-1 border border-gray-300 hover:bg-gray-200 rounded-lg py-1 px-2"
         onClick={() => setUserMenu(!userMenu)}
       >
         <svg

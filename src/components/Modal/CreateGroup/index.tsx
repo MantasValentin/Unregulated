@@ -1,7 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { auth } from "@/firebase/clientApp";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getDatabase, ref, set, get, child, push } from "firebase/database";
+import { getDatabase, ref, set, get, child } from "firebase/database";
 
 interface props {
   modalState: boolean;

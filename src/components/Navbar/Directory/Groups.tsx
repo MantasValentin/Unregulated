@@ -9,7 +9,7 @@ interface Group {
   groupName: string;
 }
 
-const Groups: React.FC = () => {
+const UserGroups: React.FC = () => {
   const [createGroup, setCreateGroup] = useState(false);
   const [user, loading, error] = useAuthState(auth);
   const [userGroups, setUserGroups] = useState<Group[]>([]);
@@ -79,4 +79,4 @@ const Groups: React.FC = () => {
   );
 };
 
-export default Groups;
+export default UserGroups;

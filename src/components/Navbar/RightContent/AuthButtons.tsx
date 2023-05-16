@@ -9,7 +9,7 @@ const AuthButtons: React.FC = () => {
   return (
     <>
       <button
-        className="text-gray-900 font-semibold h-8 min-w-[5rem] max-w-[10rem] bg-gray-200 border border-solid border-gray-300 rounded-lg flex-auto"
+        className="text-gray-900 font-semibold h-8 min-w-[5rem] max-w-[10rem] bg-gray-100 border border-solid border-gray-300 rounded-lg flex-auto"
         onClick={() => {
           setModalState({ ...modalState, show: true, view: "login" });
         }}
@@ -17,7 +17,7 @@ const AuthButtons: React.FC = () => {
         Login
       </button>
       <button
-        className="text-gray-200 font-semibold h-8 min-w-[5rem] max-w-[10rem] bg-gray-900 border border-solid border-gray-900 rounded-lg flex-auto"
+        className="text-gray-100 font-semibold h-8 min-w-[5rem] max-w-[10rem] bg-gray-900 border border-solid border-gray-900 rounded-lg flex-auto"
         onClick={() => {
           setModalState({ ...modalState, show: true, view: "signup" });
         }}

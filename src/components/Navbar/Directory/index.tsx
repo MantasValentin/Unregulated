@@ -1,4 +1,4 @@
-import Groups from "./Groups";
+import UserGroups from "./Groups";
 import { useState } from "react";
 
 const Directory: React.FC = () => {
@@ -34,7 +34,7 @@ const Directory: React.FC = () => {
             />
           </svg>
         </div>
-        {groups ? <Groups /> : <></>}
+        {groups ? <UserGroups /> : <></>}
       </div>
     </>
   );

@@ -2,6 +2,7 @@ import React, { useState, Dispatch, SetStateAction } from "react";
 import { auth } from "@/firebase/clientApp";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getDatabase, ref, set, get, child } from "firebase/database";
+import { doc, getFirestore, runTransaction, setDoc } from "firebase/firestore";
 
 interface props {
   modalState: boolean;
@@ -15,7 +16,7 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
   const [groupType, setGroupType] = useState("");
   const [nameError, setNameError] = useState("");
 
-  const createGroup = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const createGroup = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
 
@@ -37,36 +38,93 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
       setNameError("");
     }
 
-    const db = getDatabase();
+    const db = getFirestore();
     const date = new Date(Date.now());
-    const id = Math.floor(Math.random() * 10000000);
+    const id = String(Math.floor(Math.random() * 10000000));
 
-    get(child(ref(db), `groups/${groupName}`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          return setNameError(`Sorry, ${groupName} is taken. Try another.`);
-        } else {
-          // adds group to database
-          set(ref(db, "groups/" + groupName), {
-            id: id,
-            creatorId: user?.uid,
-            numberOfMembers: 1,
-            groupType: groupType,
-            dateCreated: `${date.getFullYear()}-${
-              date.getMonth() + 1
-            }-${date.getDate()}`,
-          });
-          // adds group to group creators favorite groups
-          set(ref(db, "users/" + user?.uid + "/groups/" + groupName), {
+    // get(child(ref(db), `groups/${groupName}`))
+    //   .then((snapshot) => {
+    //     if (snapshot.exists()) {
+    //       return setNameError(`Sorry, ${groupName} is taken. Try another.`);
+    //     } else {
+    //       // adds group to database
+    //       set(ref(db, "groups/" + groupName), {
+    //         id: id,
+    //         name: groupName,
+    //         creatorId: user?.uid,
+    //         numberOfMembers: 1,
+    //         groupType: groupType,
+    //         dateCreated: `${date.getFullYear()}-${
+    //           date.getMonth() + 1
+    //         }-${date.getDate()}`,
+    //       });
+    //       // adds group to group creators favorite groups
+    //       set(ref(db, "users/" + user?.uid + "/groups/" + groupName), {
+    //         id: id,
+    //         groupName: groupName,
+    //         isModerator: true,
+    //       });
+    //       setModalState(!modalState);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+
+    try {
+      const groupDocRef = doc(db, "groups", groupName);
+      await runTransaction(db, async (transaction) => {
+        const groupDoc = await transaction.get(groupDocRef);
+        if (groupDoc.exists()) {
+          throw new Error(`Sorry, ${groupName} is taken. Try another.`);
+        }
+
+        transaction.set(groupDocRef, {
+          id: id,
+          name: groupName,
+          creatorId: user?.uid,
+          numberOfMembers: 1,
+          groupType: groupType,
+          dateCreated: `${date.getFullYear()}-${
+            date.getMonth() + 1
+          }-${date.getDate()}`,
+        });
+
+        transaction.set(
+          doc(db, `users/${user?.uid}/groupSnippets`, groupName),
+          {
             id: id,
             groupName: groupName,
-          });
-          setModalState(!modalState);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
+            isModerator: true,
+          }
+        );
+        
       });
+    } catch (error: any) {
+      console.log("Transaction error", error);
+      setNameError(error.message);
+    }
+
+    // setDoc(doc(db, "groups", groupName), {
+    //   id: id,
+    //   name: groupName,
+    //   creatorId: user?.uid,
+    //   numberOfMembers: 1,
+    //   groupType: groupType,
+    //   dateCreated: `${date.getFullYear()}-${
+    //     date.getMonth() + 1
+    //   }-${date.getDate()}`,
+    // });
+    // setDoc(doc(db, `users/${user?.uid}/groups`), {
+    //   id: id,
+    //   name: groupName,
+    //   creatorId: user?.uid,
+    //   numberOfMembers: 1,
+    //   groupType: groupType,
+    //   dateCreated: `${date.getFullYear()}-${
+    //     date.getMonth() + 1
+    //   }-${date.getDate()}`,
+    // });
   };
 
   return (

@@ -3,33 +3,40 @@ import CreateGroup from "@/components/Modal/CreateGroup";
 import { getDatabase, ref, set, get, child } from "firebase/database";
 import { auth } from "@/firebase/clientApp";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useListVals } from "react-firebase-hooks/database";
 
 interface Group {
-  id: number;
+  id: string;
   groupName: string;
 }
 
 const UserGroups: React.FC = () => {
   const [createGroup, setCreateGroup] = useState(false);
-  const [user, loading, error] = useAuthState(auth);
+  const [user, userLoading, userError] = useAuthState(auth);
   const [userGroups, setUserGroups] = useState<Group[]>([]);
+  // const db = getDatabase();
+  // const [values, loading, error] = useListVals(
+  //   ref(db, "users/" + user?.uid + "/groups")
+  // );
+  // setUserGroups(values as unknown as Group[]);
 
   useEffect(() => {
-    const db = getDatabase();
-    get(child(ref(db), "users/" + user?.uid + "/groups"))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const data: Group[] = Object.keys(snapshot.val()).map((key: any) => {
-            return snapshot.val()[key];
-          });
-          setUserGroups(data);
-        } else {
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // get(child(ref(db), "users/" + user?.uid + "/groups"))
+    //   .then((snapshot) => {
+    //     if (snapshot.exists()) {
+    //       const data: Group[] = Object.keys(snapshot.val()).map((key: any) => {
+    //         return snapshot.val()[key];
+    //       });
+    // setUserGroups(data);
+    //     } else {
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   }, []);
+
+  console.log(userGroups);
 
   return (
     <>

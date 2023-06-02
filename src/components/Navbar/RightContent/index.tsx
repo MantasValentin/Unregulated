@@ -110,5 +110,3 @@ const RightContent: React.FC<props> = ({ user }) => {
 };
 
 export default RightContent;
-
-// onClick={() => signOut(auth)}

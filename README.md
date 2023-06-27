@@ -16,7 +16,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
 ```
 
-And set up Firestore and add Google, Github authentication or delete "OAuthButtons.tsx" file to have this work.
+Set up Firestore Database and add Google, Github authentication or delete "OAuthButtons.tsx" file to only require Firestore.
 
 ## Getting Started
 

@@ -8,7 +8,6 @@ import {
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
-import { child, get, getDatabase, ref } from "firebase/database";
 import {
   collection,
   doc,
@@ -32,10 +31,14 @@ const useGroupData = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // user needs to be logged in and there needs to be no data to fech the snippet data
-    if (!user || !!groupStateValue.mySnippets.length) return;
+    // user needs to be logged in and there needs to be no snippets to fech the users snippet data
+    if (
+      !user ||
+      !!groupStateValue.mySnippets.length ||
+      groupStateValue.initSnippetsFetched
+    )
+      return;
 
-    console.log("get snippet data");
     getSnippets();
   }, [user]);
 
@@ -65,16 +68,7 @@ const useGroupData = () => {
     try {
       const groupDocRef = doc(db, "groups", groupName as string);
       const groupDoc = await getDoc(groupDocRef);
-      // setCommunityStateValue((prev) => ({
-      //   ...prev,
-      //   visitedCommunities: {
-      //     ...prev.visitedCommunities,
-      //     [communityId as string]: {
-      //       id: communityDoc.id,
-      //       ...communityDoc.data(),
-      //     } as Community,
-      //   },
-      // }));
+
       setGroupStateValue((prev) => ({
         ...prev,
         currentGroup: {
@@ -96,7 +90,7 @@ const useGroupData = () => {
     }
 
     if (isJoined) {
-      leaveGroup(groupData.name);
+      leaveGroup(groupData);
     } else {
       joinGroup(groupData);
     }
@@ -106,35 +100,69 @@ const useGroupData = () => {
     try {
       const batch = writeBatch(db);
       const newSnippet: GroupSnippet = {
-        groupId: group.id,
+        id: group.id,
         groupName: group.name,
         imageURL: group.imageURL || "",
+        isModerator: false,
       };
 
       // adds the group to the users joined groups
       batch.set(doc(db, `users/${user?.uid}/groupSnippets/${group.name}`), {
-        newSnippet,
+        id: group.id,
+        groupName: group.name,
+        imageURL: group.imageURL || "",
+        isModerator: false,
       });
 
       batch.update(doc(db, "groups", group.name), {
         numberOfMembers: increment(1),
       });
+
+      await batch.commit();
+
+      setGroupStateValue((prev) => ({
+        ...prev,
+        mySnippets: [
+          ...prev.mySnippets,
+          {
+            id: group.id,
+            groupName: group.name,
+            imageURL: group.imageURL || "",
+            isModerator: false,
+          },
+        ],
+      }));
     } catch (error) {
       console.log("joinGroup error", error);
     }
     setLoading(false);
   };
 
-  const leaveGroup = async (groupName: string) => {
+  const leaveGroup = async (group: Group) => {
+    // makes sure that the creator of the group can't leave their own group
+    if (group.creatorId === user?.uid) {
+      alert("Group creator can't leave the group, only delete it.");
+      return;
+    }
+
     try {
       const batch = writeBatch(db);
 
       // deletes the group from the users joined groups
-      batch.delete(doc(db, `users/${user?.uid}/groupSnippets/${groupName}`));
+      batch.delete(doc(db, `users/${user?.uid}/groupSnippets`, group.name));
 
-      batch.update(doc(db, "groups", groupName), {
+      batch.update(doc(db, "groups", group.name), {
         numberOfMembers: increment(-1),
       });
+
+      await batch.commit();
+
+      setGroupStateValue((prev) => ({
+        ...prev,
+        mySnippets: prev.mySnippets.filter(
+          (item) => item.groupName !== group.name
+        ),
+      }));
     } catch (error) {
       console.log("leaveGroup error", error);
     }
@@ -146,8 +174,10 @@ const useGroupData = () => {
     // if the path exists gets the group data but if it doesnt then returns an empty group
     if (groupName) {
       const groupData = groupStateValue.currentGroup;
-      if (!groupData.id) {
-        console.log("get group data");
+      if (groupData.name !== groupName) {
+        getGroupData(groupName as string);
+        return;
+      } else if (!groupData.id) {
         getGroupData(groupName as string);
         return;
       }
@@ -158,8 +188,6 @@ const useGroupData = () => {
       }));
     }
   }, [router.query, groupStateValue.currentGroup]);
-
-  console.log(groupStateValue);
 
   return {
     groupStateValue,

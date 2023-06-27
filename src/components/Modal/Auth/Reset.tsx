@@ -26,7 +26,7 @@ const Reset: React.FC<props> = ({ modalState, setModalState }) => {
     <>
       <div className="flex flex-col">
         <button
-          className="text-gray-700 hover:bg-gray-200 text-right rounded-t-md pr-2"
+          className="text-gray-700 hover:bg-gray-200 text-right rounded-t-md pr-2 transition"
           onClick={() => {
             setModalState({ ...modalState, show: false });
           }}
@@ -47,7 +47,7 @@ const Reset: React.FC<props> = ({ modalState, setModalState }) => {
               <form onSubmit={onSubmit}>
                 <label className="flex flex-col pb-2">
                   <input
-                    className="border border-gray-300 rounded-md shadow-sm opacity-70 focus:outline-none focus:opacity-100 hover:opacity-100 py-1 px-2"
+                    className="border border-gray-300 rounded-md shadow-sm opacity-70 focus:outline-none focus:opacity-100 hover:opacity-100 py-1 px-2 transition"
                     type="email"
                     name="email"
                     placeholder="Enter email"
@@ -59,7 +59,7 @@ const Reset: React.FC<props> = ({ modalState, setModalState }) => {
                   />
                 </label>
                 <div className="flex justify-center w-full">
-                  <button className="flex-1 max-w-[10rem] border border-gray-300 rounded-full shadow-sm px-3 py-2 hover:bg-gray-200 text-lg">
+                  <button className="flex-1 max-w-[10rem] border border-gray-300 rounded-full shadow-sm px-3 py-2 hover:bg-gray-200 text-lg transition">
                     Confirm
                   </button>
                 </div>

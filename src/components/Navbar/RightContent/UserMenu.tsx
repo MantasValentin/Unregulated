@@ -11,7 +11,7 @@ const UserMenu: React.FC<props> = ({ user }) => {
     <>
       <div className="fixed right-0 top-[48px] w-60 bg-white border border-gray-300 rounded-md">
         <div className="flex flex-col">
-          <button className="flex items-center gap-2 m-1 p-1 rounded-md text-left hover:bg-gray-200">
+          <button className="flex items-center gap-2 m-1 p-1 rounded-md text-left hover:bg-gray-200 transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -29,7 +29,7 @@ const UserMenu: React.FC<props> = ({ user }) => {
             Profile
           </button>
           <button
-            className="flex items-center gap-2 m-1 p-1 rounded-md text-left hover:bg-gray-200"
+            className="flex items-center gap-2 m-1 p-1 rounded-md text-left hover:bg-gray-200 transition"
             onClick={() => signOut(auth)}
           >
             <svg
@@ -47,12 +47,6 @@ const UserMenu: React.FC<props> = ({ user }) => {
               />
             </svg>
             Log Out
-          </button>
-          <button className="m-1 p-1 rounded-md text-left hover:bg-gray-200">
-            Something else here
-          </button>
-          <button className="m-1 p-1 rounded-md text-left hover:bg-gray-200">
-            Seprated link
           </button>
         </div>
       </div>

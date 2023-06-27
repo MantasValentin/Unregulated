@@ -43,7 +43,7 @@ const Register: React.FC = () => {
       <label className="flex flex-col pb-2">
         <span className="font-semibold pb-1">Email</span>
         <input
-          className="border border-gray-300 rounded-md shadow-sm opacity-70 focus:outline-none focus:opacity-100 hover:opacity-100 py-1 px-2"
+          className="border border-gray-300 rounded-md shadow-sm opacity-70 focus:outline-none focus:opacity-100 hover:opacity-100 py-1 px-2 transition"
           type="email"
           name="email"
           placeholder="Enter email"
@@ -55,7 +55,7 @@ const Register: React.FC = () => {
       <label className="flex flex-col pb-2">
         <span className="font-semibold pb-1">Password</span>
         <input
-          className="border border-gray-300 rounded-md shadow-sm opacity-70 focus:outline-none focus:opacity-100 hover:opacity-100 py-1 px-2"
+          className="border border-gray-300 rounded-md shadow-sm opacity-70 focus:outline-none focus:opacity-100 hover:opacity-100 py-1 px-2 transition"
           type="password"
           name="password"
           placeholder="Enter password"
@@ -67,7 +67,7 @@ const Register: React.FC = () => {
       <label className="flex flex-col pb-6">
         <span className="font-semibold pb-1">Confirm password</span>
         <input
-          className="border border-gray-300 rounded-md shadow-sm opacity-70 focus:outline-none focus:opacity-100 hover:opacity-100 py-1 px-2"
+          className="border border-gray-300 rounded-md shadow-sm opacity-70 focus:outline-none focus:opacity-100 hover:opacity-100 py-1 px-2 transition"
           type="password"
           name="confirmpassword"
           placeholder="Confirm password"
@@ -86,7 +86,7 @@ const Register: React.FC = () => {
       )}
       <div className="flex justify-center w-full">
         <button
-          className="flex-1 max-w-[10rem] border border-gray-300 rounded-full shadow-sm px-3 py-2 hover:bg-gray-200 text-lg"
+          className="flex-1 max-w-[10rem] border border-gray-300 rounded-full shadow-sm px-3 py-2 hover:bg-gray-200 text-lg transition"
           type="submit"
         >
           <span className="">Sign Up</span>

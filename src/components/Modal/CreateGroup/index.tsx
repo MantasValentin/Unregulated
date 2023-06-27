@@ -1,7 +1,6 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { auth } from "@/firebase/clientApp";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getDatabase, ref, set, get, child } from "firebase/database";
 import { doc, getFirestore, runTransaction, setDoc } from "firebase/firestore";
 
 interface props {
@@ -16,7 +15,9 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
   const [groupType, setGroupType] = useState("");
   const [nameError, setNameError] = useState("");
 
-  const createGroup = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const createGroup = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
 
@@ -41,35 +42,6 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
     const db = getFirestore();
     const date = new Date(Date.now());
     const id = String(Math.floor(Math.random() * 10000000));
-
-    // get(child(ref(db), `groups/${groupName}`))
-    //   .then((snapshot) => {
-    //     if (snapshot.exists()) {
-    //       return setNameError(`Sorry, ${groupName} is taken. Try another.`);
-    //     } else {
-    //       // adds group to database
-    //       set(ref(db, "groups/" + groupName), {
-    //         id: id,
-    //         name: groupName,
-    //         creatorId: user?.uid,
-    //         numberOfMembers: 1,
-    //         groupType: groupType,
-    //         dateCreated: `${date.getFullYear()}-${
-    //           date.getMonth() + 1
-    //         }-${date.getDate()}`,
-    //       });
-    //       // adds group to group creators favorite groups
-    //       set(ref(db, "users/" + user?.uid + "/groups/" + groupName), {
-    //         id: id,
-    //         groupName: groupName,
-    //         isModerator: true,
-    //       });
-    //       setModalState(!modalState);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
 
     try {
       const groupDocRef = doc(db, "groups", groupName);
@@ -96,35 +68,17 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
             id: id,
             groupName: groupName,
             isModerator: true,
+            imageURL: "",
           }
         );
         
+        setModalState(!modalState);
+        window.location.reload();
       });
     } catch (error: any) {
       console.log("Transaction error", error);
       setNameError(error.message);
     }
-
-    // setDoc(doc(db, "groups", groupName), {
-    //   id: id,
-    //   name: groupName,
-    //   creatorId: user?.uid,
-    //   numberOfMembers: 1,
-    //   groupType: groupType,
-    //   dateCreated: `${date.getFullYear()}-${
-    //     date.getMonth() + 1
-    //   }-${date.getDate()}`,
-    // });
-    // setDoc(doc(db, `users/${user?.uid}/groups`), {
-    //   id: id,
-    //   name: groupName,
-    //   creatorId: user?.uid,
-    //   numberOfMembers: 1,
-    //   groupType: groupType,
-    //   dateCreated: `${date.getFullYear()}-${
-    //     date.getMonth() + 1
-    //   }-${date.getDate()}`,
-    // });
   };
 
   return (
@@ -137,7 +91,7 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
             </div>
 
             <button
-              className="flex items-center justify-end flex-1 p-3 text-gray-700 hover:bg-gray-200 rounded-tr-md"
+              className="flex items-center justify-end flex-1 p-3 text-gray-700 hover:bg-gray-200 rounded-tr-md transition"
               onClick={() => {
                 setModalState(!modalState);
               }}
@@ -149,7 +103,7 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
             <div className="flex w-full flex-col items-start">
               <div className="font-semibold pb-1 text-lg">Name</div>
               <input
-                className="w-full border border-gray-300 rounded-md shadow-sm opacity-70 focus:outline-none focus:opacity-100 hover:opacity-100 py-1 px-2"
+                className="w-full border border-gray-300 rounded-md shadow-sm opacity-70 focus:outline-none focus:opacity-100 hover:opacity-100 py-1 px-2 transition"
                 type="text"
                 name="groupname"
                 placeholder="Group Name"
@@ -216,7 +170,7 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
             </div>
             <div className="flex justify-center w-full">
               <button
-                className="flex-1 max-w-[10rem] border border-gray-300 rounded-full shadow-sm px-3 py-2 hover:bg-gray-200 text-lg"
+                className="flex-1 max-w-[10rem] border border-gray-300 rounded-full shadow-sm px-3 py-2 hover:bg-gray-200 text-lg transition"
                 type="submit"
                 onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
                   createGroup(e)

@@ -32,7 +32,7 @@ const Modal: React.FC<props> = ({ modalState, setModalState }) => {
               <div className="flex flex-1 flex-col max-w-lg border-gray-400 border-solid border rounded-lg shadow-xl bg-white">
                 <div className="flex flex-row border-b border-b-gray-300">
                   <button
-                    className="flex items-center flex-row p-3 text-gray-700 hover:bg-gray-200 rounded-tl-md"
+                    className="flex items-center flex-row p-3 text-gray-700 hover:bg-gray-200 rounded-tl-md transition"
                     onClick={() => {
                       setModalState({ ...modalState, view: "login" });
                     }}
@@ -41,7 +41,7 @@ const Modal: React.FC<props> = ({ modalState, setModalState }) => {
                     <FaUser className="text-xl"></FaUser>
                   </button>
                   <button
-                    className="flex items-center flex-row p-3 text-gray-700 hover:bg-gray-200"
+                    className="flex items-center flex-row p-3 text-gray-700 hover:bg-gray-200 transition"
                     onClick={() => {
                       setModalState({ ...modalState, view: "signup" });
                     }}
@@ -50,7 +50,7 @@ const Modal: React.FC<props> = ({ modalState, setModalState }) => {
                     <FaPen className="text-xl"></FaPen>
                   </button>
                   <button
-                    className="flex items-center justify-end flex-1 p-3 text-gray-700 hover:bg-gray-200 rounded-tr-md"
+                    className="flex items-center justify-end flex-1 p-3 text-gray-700 hover:bg-gray-200 rounded-tr-md transition"
                     onClick={() => {
                       setModalState({ ...modalState, show: false });
                     }}

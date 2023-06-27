@@ -11,13 +11,13 @@ export interface Group {
 }
 
 export interface GroupSnippet {
-  groupId: string;
+  id: string;
   groupName: string;
   isModerator?: boolean;
   imageURL?: string;
 }
 
-interface GroupState {
+export interface GroupState {
   [key: string]:
     | GroupSnippet[]
     | { [key: string]: Group }
@@ -26,9 +26,6 @@ interface GroupState {
     | undefined;
   mySnippets: GroupSnippet[];
   initSnippetsFetched: boolean;
-  visitedGroups: {
-    [key: string]: Group;
-  };
   currentGroup: Group;
 }
 
@@ -43,7 +40,6 @@ export const defaultGroup: Group = {
 export const defaultGroupState: GroupState = {
   mySnippets: [],
   initSnippetsFetched: false,
-  visitedGroups: {},
   currentGroup: defaultGroup,
 };
 

@@ -3,9 +3,9 @@ import { Timestamp } from "firebase/firestore";
 
 export type Post = {
   id: string;
-  communityId: string;
-  communityImageURL?: string;
-  userDisplayText: string; // change to authorDisplayText
+  groupName: string;
+  groupImageURL?: string;
+  authorDisplayName: string;
   creatorId: string;
   title: string;
   body: string;
@@ -24,7 +24,7 @@ export type Post = {
 export type PostVote = {
   id?: string;
   postId: string;
-  communityId: string;
+  groupName: string;
   voteValue: number;
 };
 

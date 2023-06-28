@@ -41,7 +41,7 @@ const GroupPage: React.FC<props> = ({ groupData }) => {
             </div>
           </div>
         ) : (
-          <NotFound />
+          <NotFound message="group" />
         )}
       </>
     </Layout>

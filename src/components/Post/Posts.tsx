@@ -80,10 +80,11 @@ const Posts: React.FC<props> = ({ groupData, userId }) => {
               onDeletePost={onDeletePost}
               userIsCreator={userId === post.creatorId}
               userVoteValue={
-                postStateValue.postVotes.find(
-                  (item) => item.postId === post.id
-                )?.voteValue
+                postStateValue.postVotes.find((item) => item.postId === post.id)
+                  ?.voteValue
               }
+              postIdx={index}
+              onSelectPost={onSelectPost}
             />
           ))}
         </div>

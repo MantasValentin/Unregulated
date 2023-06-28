@@ -14,7 +14,6 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { Inter } from "next/font/google";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilValue } from "recoil";
 import { useEffect } from "react";
@@ -22,7 +21,6 @@ import { Post, PostVote } from "@/atoms/postsAtom";
 import PostItem from "@/components/Post/PostItem";
 import PostLoader from "@/components/Post/Loader";
 import TopGroups from "@/components/Group/TopGroups";
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const {} = useGroupData();
@@ -186,6 +184,8 @@ export default function Home() {
                     )?.voteValue
                   }
                   homePage
+                  postIdx={index}
+                  onSelectPost={onSelectPost}
                 />
               ))}
             </div>

@@ -55,13 +55,8 @@ const NewPostForm: React.FC<Props> = ({ groupData, user }) => {
         authorDisplayName: user.email!.split(`@`)[0],
         createdAt: serverTimestamp(),
         editedAt: serverTimestamp(),
+        groupImageURL: groupData.imageURL || "",
       });
-
-      if (groupData.imageURL) {
-        await updateDoc(postDocRef, {
-          groupImageUrl: groupData.imageURL,
-        });
-      }
 
       // if the post contains a image then it gets added to the cloud storage and the URL gets added to the post
       if (selectedFile) {

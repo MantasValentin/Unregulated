@@ -52,11 +52,13 @@ const TopGroups: React.FC = () => {
                   (snippet) => snippet.groupName === item.name
                 );
                 return (
-                  <div className="flex flex-row items-center gap-4">
+                  <div
+                    key={item.id}
+                    className="flex flex-row items-center gap-4"
+                  >
                     <Link
-                      key={item.id}
                       href={`/group/${item.name}`}
-                      className="flex flex-row gap-2 items-center"
+                      className="flex flex-1 flex-row gap-2 items-center"
                     >
                       {item.imageURL ? (
                         <img

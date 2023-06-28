@@ -2,10 +2,18 @@ import { authModalState } from "@/atoms/authModalAtom";
 import { Group, groupState } from "@/atoms/groupsAtom";
 import { Post, PostVote, postState } from "@/atoms/postsAtom";
 import { auth, firestore, storage } from "@/firebase/clientApp";
-import { collection, deleteDoc, doc, writeBatch } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+  writeBatch,
+} from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -17,6 +25,14 @@ const usePosts = (groupData?: Group) => {
   const router = useRouter();
   const groupStateValue = useRecoilValue(groupState);
   const setAuthModalState = useSetRecoilState(authModalState);
+
+  const onSelectPost = (post: Post, postIdx: number) => {
+    setPostStateValue((prev) => ({
+      ...prev,
+      selectedPost: { ...post, postIdx },
+    }));
+    router.push(`/group/${post.groupName}/comments/${post.id}`);
+  };
 
   const onVote = async (
     event: React.MouseEvent<SVGSVGElement, MouseEvent>,
@@ -125,8 +141,6 @@ const usePosts = (groupData?: Group) => {
     }
   };
 
-  const onSelectPost = () => {};
-
   const onDeletePost = async (post: Post): Promise<boolean> => {
     try {
       // if post has an image url, delete it from storage
@@ -156,6 +170,48 @@ const usePosts = (groupData?: Group) => {
       return false;
     }
   };
+
+  const getGroupPostVotes = async (groupName: string) => {
+    const postVotesQuery = query(
+      collection(firestore, `users/${user?.uid}/postVotes`),
+      where("groupName", "==", groupName)
+    );
+    const postVoteDocs = await getDocs(postVotesQuery);
+    const postVotes = postVoteDocs.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setPostStateValue((prev) => ({
+      ...prev,
+      postVotes: postVotes as PostVote[],
+    }));
+
+    // const unsubscribe = onSnapshot(postVotesQuery, (querySnapshot) => {
+    //   const postVotes = querySnapshot.docs.map((postVote) => ({
+    //     id: postVote.id,
+    //     ...postVote.data(),
+    //   }));
+
+    // });
+
+    // return () => unsubscribe();
+  };
+
+  useEffect(() => {
+    if (!user?.uid || !groupStateValue.currentGroup) return;
+    getGroupPostVotes(groupStateValue.currentGroup.name);
+  }, [user, groupStateValue.currentGroup]);
+
+  useEffect(() => {
+    // Logout or no authenticated user
+    if (!user?.uid && !loadingUser) {
+      setPostStateValue((prev) => ({
+        ...prev,
+        postVotes: [],
+      }));
+      return;
+    }
+  }, [user, loadingUser]);
 
   return {
     postStateValue,

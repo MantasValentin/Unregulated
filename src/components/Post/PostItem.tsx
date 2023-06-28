@@ -97,7 +97,9 @@ const PostItem: React.FC<props> = ({
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className={`w-6 h-6 opacity-60 hover:opacity-100 active:scale-90 transition ${userVoteValue === 1 ? "opacity-100" : ""}`}
+              className={`w-6 h-6 hover:opacity-100 active:scale-90 transition ${
+                userVoteValue == 1 ? "opacity-100" : "opacity-60"
+              }`}
               onClick={(e) => onVote(e, post, 1, post.groupName)}
             >
               <path
@@ -115,7 +117,9 @@ const PostItem: React.FC<props> = ({
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className={`w-6 h-6 opacity-60 hover:opacity-100 active:scale-90 transition ${userVoteValue === -1 ? "opacity-100" : ""}`}
+              className={`w-6 h-6 hover:opacity-100 active:scale-90 transition ${
+                userVoteValue == -1 ? "opacity-100" : "opacity-60"
+              }`}
               onClick={(e) => onVote(e, post, -1, post.groupName)}
             >
               <path
@@ -130,21 +134,23 @@ const PostItem: React.FC<props> = ({
           <div className="flex flex-row items-center gap-2">
             {homePage ? (
               <div className="flex flex-row items-center gap-2">
-                {post.groupImageURL ? (
-                  <img
-                    src={post.groupImageURL as string}
-                    alt=""
-                    className="w-8 h-8 p-[2px] rounded-full border-gray-300 border-[1px]"
-                  />
-                ) : (
-                  <HiCubeTransparent
-                    className="w-8 h-8 p-[2px] rounded-full border-gray-300 border-[1px]"
-                    color="black"
-                  />
-                )}
+                <Link href={`/group/${post.groupName}`} className="">
+                  {post.groupImageURL ? (
+                    <img
+                      src={post.groupImageURL}
+                      alt=""
+                      className="w-8 h-8 p-[2px] rounded-full border-gray-300 border-[1px] hover:cursor-pointer"
+                    />
+                  ) : (
+                    <HiCubeTransparent
+                      className="w-8 h-8 p-[2px] rounded-full border-gray-300 border-[1px] hover:cursor-pointer"
+                      color="black"
+                    />
+                  )}
+                </Link>
                 <Link
                   href={`/group/${post.groupName}`}
-                  className="text-sm text-blue-500 opacity-60 hover:opacity-100 hover:cursor-pointer transition"
+                  className="text-sm text-blue-500 opacity-60 hover:opacity-100 hover:cursor-pointer transition max-md:hidden"
                 >
                   {post.groupName}
                 </Link>
@@ -153,20 +159,27 @@ const PostItem: React.FC<props> = ({
             ) : (
               ""
             )}
-            <div className="text-sm opacity-60">
+            <div className="text-sm opacity-60 max-md:text-xs">
               Posted by {post.authorDisplayName}{" "}
               {moment(
                 new Date((post.createdAt?.seconds as number) * 1000)
               ).fromNow()}
             </div>
           </div>
-          <div className="text-xl font-semibold">{post.title}</div>
+          <div className="text-xl font-semibold max-md:text-base">
+            {post.title}
+          </div>
           <div className="">{post.body}</div>
           <div className="">
             <img src={post.imageURL as string} alt="" />
           </div>
           <div className="flex flex-row gap-4">
-            <div className="flex flex-row items-center gap-1 text-lg opacity-60 hover:cursor-pointer hover:opacity-100 transition">
+            <div
+              className="flex flex-row items-center gap-1 text-lg opacity-60 hover:cursor-pointer hover:opacity-100 transition"
+              onClick={() =>
+                onSelectPost && post && onSelectPost(post, postIdx as number)
+              }
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

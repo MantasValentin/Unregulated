@@ -132,7 +132,7 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
                   Anyone can view, post, comment to this group
                 </span>
               </label>
-              <label className="flex flex-row items-center gap-2">
+              {/* <label className="flex flex-row items-center gap-2">
                 <input
                   className="flex items-center justify-center"
                   type="radio"
@@ -147,8 +147,8 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
                 <span className="text-start text-sm opacity-60">
                   Anyone can view this group, but only approved users can post
                 </span>
-              </label>
-              <label className="flex flex-row items-center gap-2">
+              </label> */}
+              {/* <label className="flex flex-row items-center gap-2">
                 <input
                   className=""
                   type="radio"
@@ -163,7 +163,7 @@ const CreateGroup: React.FC<props> = ({ modalState, setModalState }) => {
                 <span className="text-start text-sm opacity-60">
                   Only appoved users can view and post to this group
                 </span>
-              </label>
+              </label> */}
             </div>
             <div className="w-full flex justify-center items-center text-center text-red-500">
               {nameError}

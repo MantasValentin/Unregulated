@@ -67,6 +67,19 @@ export default function Home() {
           })) as Post[];
           feedPosts.push(...posts);
         });
+        if (feedPosts.length === 0) {
+          const postQuery = query(
+            collection(firestore, "posts"),
+            orderBy("voteStatus", "desc"),
+            limit(10)
+          );
+          const postDocs = await getDocs(postQuery);
+          const posts = postDocs.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          })) as Post[];
+          feedPosts.push(...posts);
+        }
       } else {
         const postQuery = query(
           collection(firestore, "posts"),

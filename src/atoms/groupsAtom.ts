@@ -47,3 +47,8 @@ export const groupState = atom<GroupState>({
   key: "groupState",
   default: defaultGroupState,
 });
+
+export const groupsState = atom<Group[]>({
+  key: "searchGroupsState",
+  default: [],
+});
